@@ -1,0 +1,14 @@
+{
+    "name": "FMovies - Outgoing request blocker",
+    "version": "1.0",
+    "description": "Block outgoing requests.",
+    "permissions": [
+        "storage", 
+        "webRequest",
+        "webRequestBlocking"
+    ],
+    "page_action": {
+        "default_popup": "popup.html"
+    },
+    "manifest_version": 2
+}
