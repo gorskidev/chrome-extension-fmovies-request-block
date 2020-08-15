@@ -5,6 +5,7 @@
     "permissions": [
         "storage",
         "declarativeContent",
+        "tabs",
         "webRequest",
         "webRequestBlocking",
         "<all_urls>"

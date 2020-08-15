@@ -1,9 +1,16 @@
-chrome.runtime.onInstalled.addListener(function() {
-    chrome.storage.sync.set({color: '#3aa757'}, function() {
-        console.log("The color is green.");
-    });
-});
+// Consts
+AVAILABLE_URLS = [
+    "://*.fmovies.*/",
+    "//*.cavjg.mcloud*/"
+]
 
+// Functions
+// Web Requests
+const isUrlAuthorized = (url) => {
+    return AVAILABLE_URLS.indexOf(url) !== -1
+}
+
+// chrome
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     chrome.declarativeContent.onPageChanged.addRules([
         {
@@ -23,8 +30,15 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
 
 chrome.webRequest.onBeforeRequest
     .addListener(details => { 
-        console.log(details) 
-        return { cancel: details.url.indexOf("://*.fmovies.*/") != -1 } 
+        return { cancel: isUrlAuthorized(details.url)}
     }, 
     { urls: ['<all_urls>'] }, 
     ["blocking"])
+
+chrome.tabs.onActivated.addListener((event) => {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.executeScript(
+            tabs[0].id,
+            {code: "document.body.style.backgroundColor = 'red'"});
+      });
+})
