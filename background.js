@@ -19,4 +19,12 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
             ]
         }
     ]);
-  });
+});
+
+chrome.webRequest.onBeforeRequest
+    .addListener(details => { 
+        console.log(details) 
+        return { cancel: details.url.indexOf("://*.fmovies.*/") != -1 } 
+    }, 
+    { urls: ['<all_urls>'] }, 
+    ["blocking"])
